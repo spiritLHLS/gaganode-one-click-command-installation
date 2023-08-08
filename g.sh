@@ -88,15 +88,10 @@ result(){
   green " Finish \n"
 }
 
-# 卸载
-uninstall(){
-  
-}
-
 # 传参
 while getopts "UuM:m:" OPTNAME; do
   case "$OPTNAME" in
-    'U'|'u' ) uninstall;;
+    # 'U'|'u' ) uninstall;;
     'T'|'t' ) token=$OPTARG;;
   esac
 done
