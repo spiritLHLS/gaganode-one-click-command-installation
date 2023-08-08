@@ -112,16 +112,22 @@ else
     apt-get update
     apt-get install -y curl tar ca-certificates sudo 
 fi
+timeout=60
+interval=3
+elapsed_time=0
 if [[ $ARCH == "x86" ]]; then
     curl -o apphub-linux-amd64.tar.gz https://assets.coreservice.io/public/package/60/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-amd64.tar.gz && rm -f apphub-linux-amd64.tar.gz
     cd /root/apphub-linux-amd64
     sudo ./apphub service remove && sudo ./apphub service install
     sudo ./apphub service start
-    sleep 8
-    sudo ./apphub status
-    sleep 8
-    sudo ./apphub status
-    sleep 2
+    while [ $elapsed_time -lt $timeout ]; do
+        status=$(sudo ./apphub status)
+        if [ "$status" = "RUNNING" ]; then
+            break
+        fi
+        sleep $interval
+        elapsed_time=$((elapsed_time + interval))
+    done
     sudo ./apps/gaganode/gaganode config set --token=${token}
     sleep 1
     sudo ./apphub restart
@@ -130,11 +136,14 @@ else
     cd /root/apphub-linux-arm64
     sudo ./apphub service remove && sudo ./apphub service install
     sudo ./apphub service start
-    sleep 8
-    sudo ./apphub status
-    sleep 8
-    sudo ./apphub status
-    sleep 2
+    while [ $elapsed_time -lt $timeout ]; do
+        status=$(sudo ./apphub status)
+        if [ "$status" = "RUNNING" ]; then
+            break
+        fi
+        sleep $interval
+        elapsed_time=$((elapsed_time + interval))
+    done
     sudo ./apps/gaganode/gaganode config set --token=${token}
     sleep 1
     sudo ./apphub restart
