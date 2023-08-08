@@ -117,9 +117,11 @@ if [[ $ARCH == "x86" ]]; then
     cd /root/apphub-linux-amd64
     sudo ./apphub service remove && sudo ./apphub service install
     sudo ./apphub service start
-    sleep 10
+    sleep 8
     sudo ./apphub status
-    sleep 3
+    sleep 8
+    sudo ./apphub status
+    sleep 2
     sudo ./apps/gaganode/gaganode config set --token=${token}
     sleep 1
     sudo ./apphub restart
@@ -128,9 +130,11 @@ else
     cd /root/apphub-linux-arm64
     sudo ./apphub service remove && sudo ./apphub service install
     sudo ./apphub service start
-    sleep 10
+    sleep 8
     sudo ./apphub status
-    sleep 3
+    sleep 8
+    sudo ./apphub status
+    sleep 2
     sudo ./apps/gaganode/gaganode config set --token=${token}
     sleep 1
     sudo ./apphub restart
