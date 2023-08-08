@@ -11,7 +11,6 @@ else
   export LANGUAGE="$utf8_locale"
   echo "Locale set to $utf8_locale"
 fi
-
 # 自定义字体彩色，read 函数，安装依赖函数
 red(){ echo -e "\033[31m\033[01m$1$2\033[0m"; }
 green(){ echo -e "\033[32m\033[01m$1$2\033[0m"; }
