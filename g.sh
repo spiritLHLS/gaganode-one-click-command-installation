@@ -113,23 +113,23 @@ else
 fi
 if [ $ARCHITECTUREH = "amd64" ]; then
     curl -o apphub-linux-amd64.tar.gz https://assets.coreservice.io/public/package/60/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-amd64.tar.gz && rm -f apphub-linux-amd64.tar.gz && cd ./apphub-linux-amd64
-    ./apphub service remove && sudo ./apphub service install
-    ./apphub service start
-    sleep 3
-    ./apphub status
+    sudo ./apphub service remove && sudo ./apphub service install
+    sudo ./apphub service start
+    sleep 5
+    sudo ./apphub status
     sleep 1
-    ./apps/gaganode/gaganode config set --token=${token}
+    sudo ./apps/gaganode/gaganode config set --token=${token}
     sleep 1
-    ./apphub restart
+    sudo ./apphub restart
 else
     curl -o apphub-linux-arm64.tar.gz https://assets.coreservice.io/public/package/61/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm64.tar.gz && rm -f apphub-linux-arm64.tar.gz && cd ./apphub-linux-arm64
-    ./apphub service remove && sudo ./apphub service install
-    ./apphub service start
-    sleep 3
-    ./apphub status
+    sudo ./apphub service remove && sudo ./apphub service install
+    sudo ./apphub service start
+    sleep 5
+    sudo ./apphub status
     sleep 1
-    ./apps/gaganode/gaganode config set --token=${token}
+    sudo ./apps/gaganode/gaganode config set --token=${token}
     sleep 1
-    ./apphub restart
+    sudo ./apphub restart
 fi
 result
