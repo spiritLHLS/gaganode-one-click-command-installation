@@ -1,5 +1,6 @@
 #!/bin/bash
-#FROM https://github.com/spiritLHLS/gaganode-one-click-command-installation
+# FROM 
+# https://github.com/spiritLHLS/gaganode-one-click-command-installation
 
 utf8_locale=$(locale -a 2>/dev/null | grep -i -m 1 -E "UTF-8|utf8")
 if [[ -z "$utf8_locale" ]]; then
