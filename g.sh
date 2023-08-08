@@ -113,7 +113,8 @@ else
     apt-get install -y curl tar ca-certificates sudo 
 fi
 if [[ $ARCH == "x86" ]]; then
-    curl -o apphub-linux-amd64.tar.gz https://assets.coreservice.io/public/package/60/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-amd64.tar.gz && rm -f apphub-linux-amd64.tar.gz && cd ./apphub-linux-amd64
+    curl -o apphub-linux-amd64.tar.gz https://assets.coreservice.io/public/package/60/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-amd64.tar.gz && rm -f apphub-linux-amd64.tar.gz
+    cd /root/apphub-linux-amd64
     sudo ./apphub service remove && sudo ./apphub service install
     sudo ./apphub service start
     sleep 10
@@ -123,7 +124,8 @@ if [[ $ARCH == "x86" ]]; then
     sleep 1
     sudo ./apphub restart
 else
-    curl -o apphub-linux-arm64.tar.gz https://assets.coreservice.io/public/package/61/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm64.tar.gz && rm -f apphub-linux-arm64.tar.gz && cd ./apphub-linux-arm64
+    curl -o apphub-linux-arm64.tar.gz https://assets.coreservice.io/public/package/61/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm64.tar.gz && rm -f apphub-linux-arm64.tar.gz
+    cd /root/apphub-linux-arm64
     sudo ./apphub service remove && sudo ./apphub service install
     sudo ./apphub service start
     sleep 10
