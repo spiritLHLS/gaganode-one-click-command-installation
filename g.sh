@@ -102,6 +102,7 @@ if [[ $ARCH == "x86" ]]; then
         if [ "$status" = "RUNNING" ]; then
             break
         fi
+        echo "Waiting for the program to start up..."
         sleep $interval
         elapsed_time=$((elapsed_time + interval))
     done
@@ -118,6 +119,7 @@ else
         if [ "$status" = "RUNNING" ]; then
             break
         fi
+        echo "Waiting for the program to start up..."
         sleep $interval
         elapsed_time=$((elapsed_time + interval))
     done
