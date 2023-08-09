@@ -118,6 +118,7 @@ elif [[ $ARCH == "arm32" ]]; then
 fi
 sudo ./apphub service remove && sudo ./apphub service install
 sudo ./apphub service start
+sleep 5
 while [ $elapsed_time -lt $timeout ]; do
     status=$(sudo ./apphub status)
     if [[ "$status" == *RUNNING* ]]; then
