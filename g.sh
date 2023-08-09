@@ -80,6 +80,7 @@ uninstall(){
     sudo ./apphub service remove
     cd ..
     rm -rf ${myvar}/${apphub_name}
+    exit 1
 }
 
 result(){
