@@ -12,7 +12,7 @@ else
   echo "Locale set to $utf8_locale"
 fi
 
-cd /root >/dev/null 2>&1
+myvar=$(pwd)
 # 自定义字体彩色，read 函数，安装依赖函数
 red(){ echo -e "\033[31m\033[01m$1$2\033[0m"; }
 green(){ echo -e "\033[32m\033[01m$1$2\033[0m"; }
@@ -105,16 +105,16 @@ interval=3
 elapsed_time=0
 if [[ $ARCH == "amd64" ]]; then
     curl -o apphub-linux-amd64.tar.gz https://assets.coreservice.io/public/package/60/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-amd64.tar.gz && rm -f apphub-linux-amd64.tar.gz
-    cd /root/apphub-linux-amd64
+    cd ${myvar}/apphub-linux-amd64
 elif [[ $ARCH == "arm64" ]]; then
     curl -o apphub-linux-arm64.tar.gz https://assets.coreservice.io/public/package/61/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm64.tar.gz && rm -f apphub-linux-arm64.tar.gz
-    cd ./apphub-linux-arm64
+    cd ${myvar}/apphub-linux-arm64
 elif [[ $ARCH == "386" ]]; then
     curl -o apphub-linux-386.tar.gz https://assets.coreservice.io/public/package/70/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-386.tar.gz && rm -f apphub-linux-386.tar.gz
-    cd ./apphub-linux-386
+    cd ${myvar}/apphub-linux-386
 elif [[ $ARCH == "arm32" ]]; then
     curl -o apphub-linux-arm32.tar.gz https://assets.coreservice.io/public/package/72/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm32.tar.gz && rm -f apphub-linux-arm32.tar.gz
-    cd ./apphub-linux-arm32
+    cd ${myvar}/apphub-linux-arm32
 fi
 sudo ./apphub service remove && sudo ./apphub service install
 sudo ./apphub service start
