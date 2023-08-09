@@ -120,10 +120,11 @@ sudo ./apphub service remove && sudo ./apphub service install
 sudo ./apphub service start
 while [ $elapsed_time -lt $timeout ]; do
     status=$(sudo ./apphub status)
-    if [ "$status" = "RUNNING" ]; then
+    if [[ "$status" == *RUNNING* ]]; then
         break
     fi
     echo "Waiting for the program to start up..."
+    echo "${status}"
     sleep $interval
     elapsed_time=$((elapsed_time + interval))
 done
