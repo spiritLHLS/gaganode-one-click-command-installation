@@ -21,3 +21,7 @@ bash g.sh -u
 ```
 
 Each stable node earns roughly $0.01 to $0.05 in 24 hours. (Data Center Traffic)
+
+Trading is not supported as the main website is not yet live.
+
+Tradable for use according to the official roadmap 2024.
