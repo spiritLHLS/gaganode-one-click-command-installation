@@ -13,18 +13,14 @@ else
 fi
 
 myvar=$(pwd)
-# 自定义字体彩色，read 函数，安装依赖函数
 red(){ echo -e "\033[31m\033[01m$1$2\033[0m"; }
 green(){ echo -e "\033[32m\033[01m$1$2\033[0m"; }
 yellow(){ echo -e "\033[33m\033[01m$1$2\033[0m"; }
 reading(){ read -rp "$(green "$1")" "$2"; }
-
-# 必须以root运行脚本
 check_root(){
   [[ $(id -u) != 0 ]] && red " The script must be run as root, you can enter sudo -i and then download and run again." && exit 1
 }
 
-# 判断系统，并选择相应的指令集
 check_operating_system(){
   CMD=("$(grep -i pretty_name /etc/os-release 2>/dev/null | cut -d \" -f2)"
        "$(hostnamectl 2>/dev/null | grep -i system | cut -d : -f2)"
@@ -32,23 +28,18 @@ check_operating_system(){
        "$(grep . /etc/redhat-release 2>/dev/null)"
        "$(grep . /etc/issue 2>/dev/null | cut -d \\ -f1 | sed '/^[ ]*$/d')"
       )
-
   for i in "${CMD[@]}"; do SYS="$i" && [[ -n $SYS ]] && break; done
-
   REGEX=("debian" "ubuntu" "centos|red hat|kernel|oracle linux|amazon linux|alma|rocky")
   RELEASE=("Debian" "Ubuntu" "CentOS")
   PACKAGE_UPDATE=("apt -y update" "apt -y update" "yum -y update")
   PACKAGE_INSTALL=("apt -y install" "apt -y install" "yum -y install")
   PACKAGE_UNINSTALL=("apt -y autoremove" "apt -y autoremove" "yum -y autoremove")
-
   for ((int = 0; int < ${#REGEX[@]}; int++)); do
     [[ $(echo "$SYS" | tr '[:upper:]' '[:lower:]') =~ ${REGEX[int]} ]] && SYSTEM="${RELEASE[int]}" && break
   done
-
   [[ -z $SYSTEM ]] && red " ERROR: The script supports Debian, Ubuntu, CentOS or Alpine systems only.\n" && exit 1
 }
 
-# 判断 CPU 架构
 check_virt(){
     architecture=$(uname -m)
     case "$architecture" in
@@ -70,20 +61,34 @@ check_virt(){
     esac
 }
 
-# 输入信息
 input_token(){
   [ -z $token ] && reading " Enter your Token, if you do not find it, open https://dashboard.gaganode.com/register?referral_code=smowgcziqyrfhpo to find it: " token
 }
 
-# 显示结果
+uninstall(){
+    check_virt
+    if [[ $ARCH == "amd64" ]]; then
+        apphub_name="apphub-linux-amd64"
+    elif [[ $ARCH == "arm64" ]]; then
+        apphub_name="apphub-linux-arm64"
+    elif [[ $ARCH == "386" ]]; then
+        apphub_name="apphub-linux-386"
+    elif [[ $ARCH == "arm32" ]]; then
+        apphub_name="apphub-linux-arm32"
+    fi
+    cd ${myvar}/${apphub_name}
+    sudo ./apphub service remove
+    cd ..
+    rm -rf ${myvar}/${apphub_name}
+}
+
 result(){
   green " Finish \n"
 }
 
-# 传参
-while getopts "UuM:m:" OPTNAME; do
+while getopts "UuT:t:" OPTNAME; do
   case "$OPTNAME" in
-    # 'U'|'u' ) uninstall;;
+    'U'|'u' ) uninstall;;
     'T'|'t' ) token=$OPTARG;;
   esac
 done
