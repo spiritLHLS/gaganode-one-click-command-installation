@@ -72,7 +72,7 @@ check_virt(){
 
 # 输入信息
 input_token(){
-  [ -z $token ] && reading " Enter your Token, if you do not find it, open https://dashboard.gaganode.com/register?referral_code=smowgcziqyrfhpo: " token
+  [ -z $token ] && reading " Enter your Token, if you do not find it, open https://dashboard.gaganode.com/register?referral_code=smowgcziqyrfhpo to find it: " token
 }
 
 # 显示结果
