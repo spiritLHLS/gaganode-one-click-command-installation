@@ -53,19 +53,19 @@ check_virt(){
     architecture=$(uname -m)
     case "$architecture" in
         "armv7l" | "armv6l" | "armv5l" | "armv7" | "armv6" | "armv5")
-            ARCH=arm32;;
+            ARCH="arm32"
             ;;
         "aarch64")
-            ARCH=arm64;;
+            ARCH="arm64"
             ;;
         "x86_64" | "x64")
-            ARCH=amd64;;
+            ARCH="amd64"
             ;;
         "i686")
-            ARCH=386;;
+            ARCH="386"
             ;;
         *)
-            ARCH=amd64;;
+            ARCH="amd64"
             ;;
     esac
 }
