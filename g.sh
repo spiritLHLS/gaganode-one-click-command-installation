@@ -50,13 +50,24 @@ check_operating_system(){
 
 # 判断 CPU 架构
 check_virt(){
-  ARCHITECTURE=$(uname -m)
-  case "$ARCHITECTURE" in
-    x86_64 ) ARCH=x86;;
-    x64 ) ARCH=x86;;
-    aarch64 ) ARCH=arm64;;
-    * ) red " ERROR: Unsupported architecture: $ARCHITECTURE\n" && exit 1;;
-  esac
+    architecture=$(uname -m)
+    case "$architecture" in
+        "armv7l" | "armv6l" | "armv5l" | "armv7" | "armv6" | "armv5")
+            ARCH=arm32;;
+            ;;
+        "aarch64")
+            ARCH=arm64;;
+            ;;
+        "x86_64" | "x64")
+            ARCH=amd64;;
+            ;;
+        "i686")
+            ARCH=386;;
+            ;;
+        *)
+            ARCH=amd64;;
+            ;;
+    esac
 }
 
 # 输入信息
@@ -92,39 +103,31 @@ fi
 timeout=60
 interval=3
 elapsed_time=0
-if [[ $ARCH == "x86" ]]; then
+if [[ $ARCH == "amd64" ]]; then
     curl -o apphub-linux-amd64.tar.gz https://assets.coreservice.io/public/package/60/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-amd64.tar.gz && rm -f apphub-linux-amd64.tar.gz
     cd /root/apphub-linux-amd64
-    sudo ./apphub service remove && sudo ./apphub service install
-    sudo ./apphub service start
-    while [ $elapsed_time -lt $timeout ]; do
-        status=$(sudo ./apphub status)
-        if [ "$status" = "RUNNING" ]; then
-            break
-        fi
-        echo "Waiting for the program to start up..."
-        sleep $interval
-        elapsed_time=$((elapsed_time + interval))
-    done
-    sudo ./apps/gaganode/gaganode config set --token=${token}
-    sleep 1
-    sudo ./apphub restart
-else
+elif [[ $ARCH == "arm64" ]]; then
     curl -o apphub-linux-arm64.tar.gz https://assets.coreservice.io/public/package/61/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm64.tar.gz && rm -f apphub-linux-arm64.tar.gz
-    cd /root/apphub-linux-arm64
-    sudo ./apphub service remove && sudo ./apphub service install
-    sudo ./apphub service start
-    while [ $elapsed_time -lt $timeout ]; do
-        status=$(sudo ./apphub status)
-        if [ "$status" = "RUNNING" ]; then
-            break
-        fi
-        echo "Waiting for the program to start up..."
-        sleep $interval
-        elapsed_time=$((elapsed_time + interval))
-    done
-    sudo ./apps/gaganode/gaganode config set --token=${token}
-    sleep 1
-    sudo ./apphub restart
+    cd ./apphub-linux-arm64
+elif [[ $ARCH == "386" ]]; then
+    curl -o apphub-linux-386.tar.gz https://assets.coreservice.io/public/package/70/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-386.tar.gz && rm -f apphub-linux-386.tar.gz
+    cd ./apphub-linux-386
+elif [[ $ARCH == "arm32" ]]; then
+    curl -o apphub-linux-arm32.tar.gz https://assets.coreservice.io/public/package/72/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm32.tar.gz && rm -f apphub-linux-arm32.tar.gz
+    cd ./apphub-linux-arm32
 fi
+sudo ./apphub service remove && sudo ./apphub service install
+sudo ./apphub service start
+while [ $elapsed_time -lt $timeout ]; do
+    status=$(sudo ./apphub status)
+    if [ "$status" = "RUNNING" ]; then
+        break
+    fi
+    echo "Waiting for the program to start up..."
+    sleep $interval
+    elapsed_time=$((elapsed_time + interval))
+done
+sudo ./apps/gaganode/gaganode config set --token=${token}
+sleep 1
+sudo ./apphub restart
 result
