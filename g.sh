@@ -112,16 +112,16 @@ interval=3
 elapsed_time=0
 if [[ $ARCH == "amd64" ]]; then
     curl -o ${myvar}/apphub-linux-amd64.tar.gz https://assets.coreservice.io/public/package/66/gaganode_pro/0.0.300/gaganode_pro-0_0_300.tar.gz && tar -zxf apphub-linux-amd64.tar.gz && rm -f apphub-linux-amd64.tar.gz
-    cd ${myvar}/apphub-linux-amd64
+    cd ${myvar}/gaganode-linux-amd64
 elif [[ $ARCH == "arm64" ]]; then
     curl -o ${myvar}/apphub-linux-arm64.tar.gz https://assets.coreservice.io/public/package/68/gaganode_pro/0.0.300/gaganode_pro-0_0_300.tar.gz && tar -zxf apphub-linux-arm64.tar.gz && rm -f apphub-linux-arm64.tar.gz
-    cd ${myvar}/apphub-linux-arm64
+    cd ${myvar}/gaganode-linux-arm64
 elif [[ $ARCH == "386" ]]; then
     curl -o ${myvar}/apphub-linux-386.tar.gz https://assets.coreservice.io/public/package/65/gaganode_pro/0.0.300/gaganode_pro-0_0_300.tar.gz && tar -zxf apphub-linux-386.tar.gz && rm -f apphub-linux-386.tar.gz
-    cd ${myvar}/apphub-linux-386
+    cd ${myvar}/gaganode-linux-386
 elif [[ $ARCH == "arm32" ]]; then
     curl -o ${myvar}/apphub-linux-arm32.tar.gz https://assets.coreservice.io/public/package/67/gaganode_pro/0.0.300/gaganode_pro-0_0_300.tar.gz && tar -zxf apphub-linux-arm32.tar.gz && rm -f apphub-linux-arm32.tar.gz
-    cd ${myvar}/apphub-linux-arm32
+    cd ${myvar}/gaganode-linux-arm32
 fi
 sudo ./apphub service remove
 sudo ./apphub service install
