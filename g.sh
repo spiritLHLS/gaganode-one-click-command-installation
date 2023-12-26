@@ -1,7 +1,7 @@
 #!/bin/bash
 # FROM 
 # https://github.com/spiritLHLS/gaganode-one-click-command-installation
-# 2023.12.25
+# 2023.12.26
 
 utf8_locale=$(locale -a 2>/dev/null | grep -i -m 1 -E "UTF-8|utf8")
 if [[ -z "$utf8_locale" ]]; then
@@ -102,10 +102,16 @@ check_virt
 input_token
 if [ $SYSTEM = "CentOS" ]; then
     yum update
-    yum install -y curl tar ca-certificates sudo 
+    yum install -y curl tar ca-certificates sudo
+    if ! command -v crontab >/dev/null 2>&1; then
+        yum install -y cronie
+    fi
 else
     apt-get update
     apt-get install -y curl tar ca-certificates sudo 
+    if ! command -v crontab >/dev/null 2>&1; then
+        apt-get install -y cron
+    fi
 fi
 timeout=60
 interval=3
@@ -113,15 +119,19 @@ elapsed_time=0
 if [[ $ARCH == "amd64" ]]; then
     curl -o ${myvar}/apphub-linux-amd64.tar.gz https://assets.coreservice.io/public/package/60/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-amd64.tar.gz && rm -f apphub-linux-amd64.tar.gz
     cd ${myvar}/apphub-linux-amd64
+    echo "0 3 * * * cd ${myvar}/apphub-linux-amd64 && ./apphub restart" | crontab -
 elif [[ $ARCH == "arm64" ]]; then
     curl -o ${myvar}/apphub-linux-arm64.tar.gz https://assets.coreservice.io/public/package/61/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm64.tar.gz && rm -f apphub-linux-arm64.tar.gz
     cd ${myvar}/apphub-linux-arm64
+    echo "0 3 * * * cd ${myvar}/apphub-linux-arm64 && ./apphub restart" | crontab -
 elif [[ $ARCH == "386" ]]; then
     curl -o ${myvar}/apphub-linux-386.tar.gz https://assets.coreservice.io/public/package/70/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-386.tar.gz && rm -f apphub-linux-386.tar.gz
     cd ${myvar}/apphub-linux-386
+    echo "0 3 * * * cd ${myvar}/apphub-linux-386 && ./apphub restart" | crontab -
 elif [[ $ARCH == "arm32" ]]; then
     curl -o ${myvar}/apphub-linux-arm32.tar.gz https://assets.coreservice.io/public/package/72/app-market-gaga-pro/1.0.4/app-market-gaga-pro-1_0_4.tar.gz && tar -zxf apphub-linux-arm32.tar.gz && rm -f apphub-linux-arm32.tar.gz
     cd ${myvar}/apphub-linux-arm32
+    echo "0 3 * * * cd ${myvar}/apphub-linux-arm32 && ./apphub restart" | crontab -
 fi
 sudo ./apphub service remove && sudo ./apphub service install
 sudo ./apphub service start
